@@ -1,0 +1,4 @@
+<resources>
+    <integer name="poster_w185_int_width">185</integer>
+    <integer name="poster_w185_int_height">280</integer>
+</resources>

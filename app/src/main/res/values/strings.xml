@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">MoviesApp</string>
+    <string name="tmdb_api_key">e2b0a842f300591be82cc784c7ac7efd</string>
+    <string name="title_activity_movie_details">MovieDetailsActivity</string>
+    <string name="sample_title">Shivam Gupta - The Movie</string>
+    <string name="release_date_heading">Release Date :</string>
+    <string name="release_date">1992-01-19</string>
+    <string name="voting_average_heading">Voting Average :</string>
+    <string name="voting_average">9.8</string>
+    <string name="original_language_heading">Language :</string>
+    <string name="original_language">EN</string>
+    <string name="overview_heading">Overview :</string>
+    <string name="overview">Shivam Gupta, a graduate from the University of Illinois, moved to the Bay Area in search of something that cannot be explained by any rational being. Will he find it or will continue live a life of a nomad is what this award-winning movie is about.</string>
+    <string name="movie_parcel">MOVIE_PARCEL</string>
+    <string name="need_internet_error">This app needs internet!</string>
+    <string name="tmdb_sort_by_tag">SORT_METHOD</string>
+    <string name="pref_sort_popular_tag">SORT_POPULAR</string>
+    <string name="pref_sort_vote_avg_tag">SORT_VOTE_AVERAGE</string>
+    <string name="tmdb_sort_by_popularity">popularity.desc</string>
+    <string name="tmdb_sort_by_vote_average">vote_average.desc</string>
+</resources>
