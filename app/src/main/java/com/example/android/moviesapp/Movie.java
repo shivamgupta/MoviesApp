@@ -34,7 +34,7 @@ public class Movie implements Parcelable {
     private String moviePosterPath;
     private String movieReleaseDate;
     private String movieOriginalLanguage;
-    private Double movieVoteAverage;
+    private String movieVoteAverage;
 
     /**
      * Constructors
@@ -48,7 +48,7 @@ public class Movie implements Parcelable {
         moviePosterPath = p.readString();
         movieReleaseDate = p.readString();
         movieOriginalLanguage = p.readString();
-        //movieVoteAverage = (Double) p.readValue(Double.class.getClassLoader());
+        movieVoteAverage = p.readString();
     }
 
     /**
@@ -75,7 +75,7 @@ public class Movie implements Parcelable {
     }
 
     public void setMovieVoteAverage(Double avg){
-        movieVoteAverage = avg;
+        movieVoteAverage = avg.toString();
     }
 
     /**
@@ -138,7 +138,7 @@ public class Movie implements Parcelable {
         parcel.writeString(moviePosterPath);
         parcel.writeString(movieReleaseDate);
         parcel.writeString(movieOriginalLanguage);
-        parcel.writeDouble(movieVoteAverage);
+        parcel.writeString(movieVoteAverage);
     }
 
     public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
