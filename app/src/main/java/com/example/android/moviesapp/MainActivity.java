@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private GridView moviePosterGridView;
     private Menu preferenceMenu;
+    private static final String API_KEY = BuildConfig.API_KEY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         Boolean networkAvailable = activeNetworkInfo != null && activeNetworkInfo.isConnected();
 
         if (networkAvailable) {
-            String apiKey = getString(R.string.tmdb_api_key);
+            String apiKey = API_KEY;
 
             OnFetchTaskCompleted taskCompleted = new OnFetchTaskCompleted() {
                 @Override
