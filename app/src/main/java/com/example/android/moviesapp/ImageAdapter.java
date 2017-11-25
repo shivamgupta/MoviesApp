@@ -52,25 +52,27 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         // Gets the Movie object from the ArrayAdapter at the appropriate position
         Movie movie = getItem(position);
+        ImageView imageView;
 
         // Adapters recycle views to AdapterViews.
         if (convertView == null) {
-            convertView = new ImageView(mContext);
+            imageView = new ImageView(mContext);
+            imageView.setAdjustViewBounds(true);
+        } else {
+            imageView = (ImageView) convertView;
         }
 
         if(movie.getMoviePosterPath() != null)
         {
             Picasso.with(mContext)
                     .load(movie.getMoviePosterPath())
-                    .resize(600,
-                            1000)
                     .placeholder(R.drawable.loading)
                     .error(R.drawable.not_found)
-                    .into((ImageView) convertView);
+                    .into(imageView);
         } else {
             Log.e(LOG_TAG, "Movie Poster Path is null");
         }
 
-        return convertView;
+        return imageView;
     }
 }
