@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private GridView moviePosterGridView;
     private Menu preferenceMenu;
     private static final String API_KEY = BuildConfig.API_KEY;
+    Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         moviePosterGridView = (GridView) findViewById(R.id.gridview);
         moviePosterGridView.setOnItemClickListener(moviePosterClickListener);
+
+        toast = Toast.makeText(this, "Sorted by Popularily", Toast.LENGTH_SHORT);
 
         if (savedInstanceState == null) {
             getMoviesFromTmdb();
@@ -148,11 +151,15 @@ public class MainActivity extends AppCompatActivity {
         if (sortMethod.equals(getString(R.string.tmdb_sort_by_popularity))) {
             preferenceMenu.findItem(R.string.pref_sort_popular_tag).setVisible(false);
             preferenceMenu.findItem(R.string.pref_sort_vote_avg_tag).setVisible(true);
-            Toast.makeText(this, "Sorted by Popularily", Toast.LENGTH_SHORT).show();
+            toast.cancel();
+            toast = Toast.makeText(this, "Sorted by Popularily", Toast.LENGTH_SHORT);
+            toast.show();
         } else {
             preferenceMenu.findItem(R.string.pref_sort_popular_tag).setVisible(true);
             preferenceMenu.findItem(R.string.pref_sort_vote_avg_tag).setVisible(false);
-            Toast.makeText(this, "Sorted by Vote Average", Toast.LENGTH_SHORT).show();
+            toast.cancel();
+            toast = Toast.makeText(this, "Sorted by Vote Average", Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 
