@@ -15,6 +15,7 @@ public class TmdbJSONUtils {
     public static Movie[] getMoviesFromRawData(String rawTmdbData)  throws JSONException {
         // JSON TAGS
         final String TAG_RESULTS = "results";
+        final String TAG_ID = "id";
         final String TAG_ORIGINAL_TITLE = "title";
         final String TAG_OVERVIEW = "overview";
         final String TAG_POSTER_PATH = "poster_path";
@@ -31,6 +32,7 @@ public class TmdbJSONUtils {
             movies[i] = new Movie();
             JSONObject movieInfo = movieResultsArray.getJSONObject(i);
 
+            movies[i].setMovieId(movieInfo.getString(TAG_ID));
             movies[i].setMovieTitle(movieInfo.getString(TAG_ORIGINAL_TITLE));
             movies[i].setMovieOverview(movieInfo.getString(TAG_OVERVIEW));
             movies[i].setMoviePosterPath(movieInfo.getString(TAG_POSTER_PATH));
@@ -38,7 +40,6 @@ public class TmdbJSONUtils {
             movies[i].setMovieOriginalLanguage(movieInfo.getString(TAG_ORIGINAL_LANGUAGE));
             movies[i].setMovieVoteAverage(movieInfo.getDouble(TAG_VOTE_AVERAGE));
         }
-
         return movies;
     }
 }

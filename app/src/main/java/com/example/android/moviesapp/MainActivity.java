@@ -110,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Movie movie = (Movie) parent.getItemAtPosition(position);
-            System.out.println(movie.getMovieTitle());
             Intent intent = new Intent(getApplicationContext(), MovieDetailsActivity.class);
             intent.putExtra(getResources().getString(R.string.movie_parcel), movie);
             startActivity(intent);

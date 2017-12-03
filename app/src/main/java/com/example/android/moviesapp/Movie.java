@@ -29,6 +29,7 @@ public class Movie implements Parcelable {
              "release_date": "2017-03-03" (Format: yyyy-mm-dd)
          }
      */
+    private String movieId;
     private String movieTitle;
     private String movieOverview;
     private String moviePosterPath;
@@ -43,6 +44,7 @@ public class Movie implements Parcelable {
     }
 
     private Movie(Parcel p) {
+        movieId = p.readString();
         movieTitle = p.readString();
         movieOverview = p.readString();
         moviePosterPath = p.readString();
@@ -54,6 +56,10 @@ public class Movie implements Parcelable {
     /**
      * Setters
      */
+    public void setMovieId(String id) {
+        movieId = id;
+    }
+
     public void setMovieTitle(String title) {
         movieTitle = title;
     }
@@ -81,6 +87,12 @@ public class Movie implements Parcelable {
     /**
      * Getters
      */
+    public String getMovieId() {
+        if (movieId == null)
+            return "0";
+        return movieId;
+    }
+
     public String getMovieTitle() {
         if (movieTitle != null){
             return movieTitle;
@@ -133,6 +145,7 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(movieId);
         parcel.writeString(movieTitle);
         parcel.writeString(movieOverview);
         parcel.writeString(moviePosterPath);

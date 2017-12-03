@@ -17,4 +17,6 @@
     <string name="pref_sort_vote_avg_tag">SORT_VOTE_AVERAGE</string>
     <string name="tmdb_sort_by_popularity">popularity</string>
     <string name="tmdb_sort_by_vote_average">vote_average</string>
+    <string name="favorite_tag">FAVORITE MOVIE</string>
+    <string name="unfavorite_tag">UNFAVORITE MOVIE</string>
 </resources>

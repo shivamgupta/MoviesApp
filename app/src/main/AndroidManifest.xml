@@ -27,6 +27,11 @@
             android:parentActivityName=".MainActivity">
         </activity>
 
+        <provider
+            android:name="com.example.android.moviesapp.Utilities.FavoriteMovieContentProvider"
+            android:authorities="com.example.android.moviesapp"
+            android:exported="false"/>
+
     </application>
 
 </manifest>
