@@ -3,8 +3,11 @@ package com.example.android.moviesapp;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +17,10 @@ import android.widget.Toast;
 
 import com.example.android.moviesapp.Utilities.FavoriteMovieContract;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
@@ -47,13 +54,33 @@ public class MovieDetailsActivity extends AppCompatActivity {
         movieLanguage.setText(movie.getMovieOriginalLanguage());
         movieOverview.setText(movie.getMovieOverview());
 
-        Picasso.with(this)
+        /**
+         * TODO: Step 2 - CHECK THIS
+         */
+
+        if (thisMovieIsFavorite) {
+            String file_path = Environment.getExternalStorageDirectory().toString()
+                    + "/favoriteMovies/"
+                    + movie.getMovieId() + ".jpg";
+
+            System.out.println("Reading from - " + file_path);
+
+            Picasso.with(this)
+                .load(file_path)
+                .resize(getResources().getInteger(R.integer.poster_w185_int_width),
+                        getResources().getInteger(R.integer.poster_w185_int_height))
+                .placeholder(R.drawable.loading)
+                .error(R.drawable.not_found)
+                .into(moviePoster);
+        } else {
+            Picasso.with(this)
                 .load(movie.getMoviePosterPath())
                 .resize(getResources().getInteger(R.integer.poster_w185_int_width),
                         getResources().getInteger(R.integer.poster_w185_int_height))
                 .placeholder(R.drawable.loading)
                 .error(R.drawable.not_found)
                 .into(moviePoster);
+        }
     }
 
     @Override
@@ -140,6 +167,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     private void addMovieToDb(){
+        saveImageOnPhone();
         ContentValues contentValues = new ContentValues();
         contentValues.put(FavoriteMovieContract.MovieEntry.COLUMN_MOVIE_ID, movie.getMovieId());
         contentValues.put(FavoriteMovieContract.MovieEntry.COLUMN_MOVIE_TITLE, movie.getMovieTitle());
@@ -148,8 +176,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
         contentValues.put(FavoriteMovieContract.MovieEntry.COLUMN_MOVIE_RELEASE_DATE, movie.getMovieReleaseDate());
         contentValues.put(FavoriteMovieContract.MovieEntry.COLUMN_MOVIE_LANGAUGE, movie.getMovieOriginalLanguage());
         contentValues.put(FavoriteMovieContract.MovieEntry.COLUMN_MOVIE_VOTE_AVERAGE, movie.getMovieVoteAverage());
-
-        
 
         Uri uri = getContentResolver().insert(FavoriteMovieContract.MovieEntry.CONTENT_URI, contentValues);
 
@@ -171,5 +197,43 @@ public class MovieDetailsActivity extends AppCompatActivity {
             toast = Toast.makeText(this, "Removed from your favorites.", Toast.LENGTH_SHORT);
             toast.show();
         }
+    }
+
+    /**
+     * TODO: Step 1 - CHECK THIS
+     */
+    private void saveImageOnPhone(){
+        Picasso.with(getApplicationContext())
+            .load(movie.getMoviePosterPath())
+            .into(new Target() {
+                  @Override
+                  public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                      try {
+                          String root = Environment.getExternalStorageDirectory().toString();
+                          File myDir = new File(root + "/favoriteMovies");
+
+                          if (!myDir.exists())
+                              myDir.mkdirs();
+
+                          String name = movie.getMovieId() + ".jpg";
+                          myDir = new File(myDir, name);
+                          System.out.println("Saving to - " + myDir.toString());
+                          FileOutputStream out = new FileOutputStream(myDir);
+                          bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                          out.flush();
+                          out.close();
+                      } catch(Exception e){
+                          // some action
+                      }
+                  }
+
+                  @Override
+                  public void onBitmapFailed(Drawable errorDrawable) {
+                  }
+
+                  @Override
+                  public void onPrepareLoad(Drawable placeHolderDrawable) {
+                  }
+            });
     }
 }
