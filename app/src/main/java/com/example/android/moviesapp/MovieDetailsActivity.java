@@ -212,11 +212,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
                       try {
                           File myDir = new File(Environment.getExternalStorageDirectory() + "/favoriteMovies");
 
-                          if (!myDir.exists()) {
-                              if (!myDir.mkdirs()) {
+                          if (!myDir.exists())
+                              if (!myDir.mkdirs())
                                   Log.e("Log :: ", "Problem creating Image folder");
-                              }
-                           }
 
                           String name = movie.getMovieId() + ".jpg";
                           myDir = new File(myDir, name);
