@@ -1,13 +1,18 @@
 package com.example.android.moviesapp;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -32,6 +37,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        verifyStoragePermissions(this, getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
@@ -66,7 +72,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
             System.out.println("Reading from - " + file_path);
 
-            Picasso.with(this)
+            Picasso.with(getApplicationContext())
                 .load(file_path)
                 .resize(getResources().getInteger(R.integer.poster_w185_int_width),
                         getResources().getInteger(R.integer.poster_w185_int_height))
@@ -74,7 +80,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 .error(R.drawable.not_found)
                 .into(moviePoster);
         } else {
-            Picasso.with(this)
+            Picasso.with(getApplicationContext())
                 .load(movie.getMoviePosterPath())
                 .resize(getResources().getInteger(R.integer.poster_w185_int_width),
                         getResources().getInteger(R.integer.poster_w185_int_height))
@@ -236,5 +242,33 @@ public class MovieDetailsActivity extends AppCompatActivity {
                   public void onPrepareLoad(Drawable placeHolderDrawable) {
                   }
             });
+    }
+
+    // Storage Permissions
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+    /**
+     * Checks if the app has permission to write to device storage
+     *
+     * If the app does not has permission then the user will be prompted to grant permissions
+     *
+     * @param activity
+     */
+    public static void verifyStoragePermissions(Activity activity, Context context) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
     }
 }
