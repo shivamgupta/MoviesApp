@@ -223,7 +223,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                           out.flush();
                           out.close();
                       } catch(Exception e){
-                          // some action
+                          e.printStackTrace();
                       }
                   }
 
