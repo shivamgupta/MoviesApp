@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -209,11 +210,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
                   @Override
                   public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                       try {
-                          String root = Environment.getExternalStorageDirectory().toString();
-                          File myDir = new File(root + "/favoriteMovies");
+                          File myDir = new File(Environment.getExternalStorageDirectory() + "/favoriteMovies");
 
-                          if (!myDir.exists())
-                              myDir.mkdirs();
+                          if (!myDir.exists()) {
+                              if (!myDir.mkdirs()) {
+                                  Log.e("Log :: ", "Problem creating Image folder");
+                              }
+                           }
 
                           String name = movie.getMovieId() + ".jpg";
                           myDir = new File(myDir, name);
