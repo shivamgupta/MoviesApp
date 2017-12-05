@@ -61,19 +61,20 @@ public class MovieDetailsActivity extends AppCompatActivity {
         movieLanguage.setText(movie.getMovieOriginalLanguage());
         movieOverview.setText(movie.getMovieOverview());
 
-        /**
-         * TODO: Step 2 - CHECK THIS
-         */
-
         if (thisMovieIsFavorite) {
-            String file_path = Environment.getExternalStorageDirectory().toString()
-                    + "/favoriteMovies/"
-                    + movie.getMovieId() + ".jpg";
+            String file_path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                    + File.separator +
+                    "favoriteMovies" +
+                    File.separator +
+                    movie.getMovieId() +
+                    ".jpg";
+
+            Uri imageUri = Uri.fromFile(new File(file_path));
 
             System.out.println("Reading from - " + file_path);
 
             Picasso.with(getApplicationContext())
-                .load(file_path)
+                .load(imageUri)
                 .resize(getResources().getInteger(R.integer.poster_w185_int_width),
                         getResources().getInteger(R.integer.poster_w185_int_height))
                 .placeholder(R.drawable.loading)
@@ -174,7 +175,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     private void addMovieToDb(){
-        saveImageOnPhone();
+        saveImageOnPhonesExternalStorage();
         ContentValues contentValues = new ContentValues();
         contentValues.put(FavoriteMovieContract.MovieEntry.COLUMN_MOVIE_ID, movie.getMovieId());
         contentValues.put(FavoriteMovieContract.MovieEntry.COLUMN_MOVIE_TITLE, movie.getMovieTitle());
@@ -194,6 +195,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     private void removeMovieFromDb(){
+        removeImageFromPhonesExternalStorage(movie.getMovieId());
         String id = movie.getMovieId();
         Uri uri = FavoriteMovieContract.MovieEntry.CONTENT_URI;
         uri = uri.buildUpon().appendPath(id).build();
@@ -209,14 +211,15 @@ public class MovieDetailsActivity extends AppCompatActivity {
     /**
      * TODO: Step 1 - CHECK THIS
      */
-    private void saveImageOnPhone(){
+    private void saveImageOnPhonesExternalStorage(){
         Picasso.with(getApplicationContext())
             .load(movie.getMoviePosterPath())
             .into(new Target() {
                   @Override
                   public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                       try {
-                          File myDir = new File(Environment.getExternalStorageDirectory() + "/favoriteMovies");
+                          String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + "favoriteMovies";
+                          File myDir = new File(path);
 
                           if (!myDir.exists())
                               if (!myDir.mkdirs())
@@ -270,5 +273,19 @@ public class MovieDetailsActivity extends AppCompatActivity {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
+    }
+
+    private void removeImageFromPhonesExternalStorage(String movieId){
+        String file_path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                + File.separator +
+                "favoriteMovies" +
+                File.separator +
+                movieId +
+                ".jpg";
+
+        File file = new File(file_path);
+
+        if (file.exists() && file.canRead())
+            file.delete();
     }
 }
