@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MoviesApp</string>
-    <string name="title_activity_movie_details">MovieDetailsActivity</string>
+    <string name="title_activity_movie_details">Movie Details</string>
     <string name="sample_title">Shivam Gupta - The Movie</string>
     <string name="release_date_heading">Release Date :</string>
     <string name="release_date">1992-01-19</string>
@@ -9,6 +9,8 @@
     <string name="original_language_heading">Language :</string>
     <string name="original_language">EN</string>
     <string name="overview_heading">Overview :</string>
+    <string name="trailer_heading">Trailer :</string>
+    <string name="trailer_text">Tap here!</string>
     <string name="overview">Shivam Gupta, a graduate from the University of Illinois, moved to the Bay Area in search of something that cannot be explained by any rational being. Will he find it or will continue live a life of a nomad is what this award-winning movie is about.</string>
     <string name="movie_parcel">MOVIE_PARCEL</string>
     <string name="need_internet_error">This app needs internet!</string>

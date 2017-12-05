@@ -40,6 +40,33 @@
             android:paddingTop="20dp">
 
             <TextView
+                android:id="@+id/trailer_textview"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="@string/trailer_heading"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/abc_text_size_medium_material" />
+
+            <TextView
+                android:id="@+id/trailer_link_textview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:onClick="goToVideo"
+                android:paddingLeft="10dp"
+                android:text="@string/trailer_text"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/abc_text_size_medium_material" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+            <TextView
                 android:id="@+id/release_date_heading_textview"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
@@ -124,7 +151,7 @@
 
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="wrap_content"
-                android:layout_height="100dp">
+                android:layout_height="110dp">
 
                 <TextView
                     android:id="@+id/overview_textview"

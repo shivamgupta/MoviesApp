@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -287,5 +288,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         if (file.exists() && file.canRead())
             file.delete();
+    }
+
+    public void goToVideo(View view) {
+        Toast.makeText(getApplicationContext(), "Hi", Toast.LENGTH_LONG).show();
     }
 }
