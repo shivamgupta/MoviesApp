@@ -13,6 +13,7 @@
     <string name="trailer_text">Tap here!</string>
     <string name="overview">Shivam Gupta, a graduate from the University of Illinois, moved to the Bay Area in search of something that cannot be explained by any rational being. Will he find it or will continue live a life of a nomad is what this award-winning movie is about.</string>
     <string name="movie_parcel">MOVIE_PARCEL</string>
+    <string name="movie_trailer_parcel">MOVIE_TRAILER_PARCEL</string>
     <string name="need_internet_error">This app needs internet!</string>
     <string name="tmdb_sort_by_tag">SORT_METHOD</string>
     <string name="pref_sort_popular_tag">SORT_POPULAR</string>

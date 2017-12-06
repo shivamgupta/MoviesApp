@@ -61,6 +61,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         thisMovieIsFavorite = isCurrentMovieFavorite();
 
         toast = Toast.makeText(this, "Add to your favorites?", Toast.LENGTH_SHORT);
+
         // Set all the views for a given movie
         movieTitle.setText(movie.getMovieTitle());
         movieReleaseDate.setText(movie.getMovieReleaseDate());
@@ -217,9 +218,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * TODO: Step 1 - CHECK THIS
-     */
     private void saveImageOnPhonesExternalStorage(){
         Picasso.with(getApplicationContext())
             .load(movie.getMoviePosterPath())
@@ -299,7 +297,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     public void goToVideo(View view) {
-        Toast.makeText(getApplicationContext(), trailerVideoKey, Toast.LENGTH_SHORT).show();
+        String[] movieData = new String[3];
+        movieData[0] = movie.getMovieTitle();
+        movieData[1] = movie.getMovieOverview();
+        movieData[2] = trailerVideoKey;
+
+        Intent intent = new Intent(getApplicationContext(), TrailerActivity.class);
+        intent.putExtra(getResources().getString(R.string.movie_trailer_parcel), movieData);
+        startActivity(intent);
     }
 
     private void getTrailerKey(){
