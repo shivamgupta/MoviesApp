@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,22 +25,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.moviesapp.Utilities.FavoriteMovieContract;
+import com.example.android.moviesapp.Utilities.NetworkUtils;
+import com.example.android.moviesapp.Utilities.TmdbJSONUtils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.URL;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
+    private static final String API_KEY = BuildConfig.API_KEY;
     private Menu favoriteMenu;
     private Movie movie;
     Toast toast;
     boolean thisMovieIsFavorite;
+    static String trailerVideoKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        verifyStoragePermissions(this, getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
@@ -90,6 +96,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 .error(R.drawable.not_found)
                 .into(moviePoster);
         }
+        getTrailerKey();
+        verifyStoragePermissions(this, getApplicationContext());
     }
 
     @Override
@@ -291,6 +299,22 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     public void goToVideo(View view) {
-        Toast.makeText(getApplicationContext(), "Hi", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), trailerVideoKey, Toast.LENGTH_SHORT).show();
+    }
+
+    private void getTrailerKey(){
+        // First check if network is available
+        ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        Boolean networkAvailable = activeNetworkInfo != null && activeNetworkInfo.isConnected();
+
+        if (networkAvailable) {
+            String apiKey = API_KEY;
+
+            DataAsyncFetcher trailerKeyTask = new DataAsyncFetcher(apiKey);
+            trailerKeyTask.execute(movie.getMovieId());
+        } else {
+            Toast.makeText(this, getString(R.string.need_internet_error), Toast.LENGTH_LONG).show();
+        }
     }
 }

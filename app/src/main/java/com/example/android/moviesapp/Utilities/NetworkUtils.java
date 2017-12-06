@@ -17,6 +17,7 @@ import java.util.Scanner;
 public final class NetworkUtils {
 
     private static final String TAG = NetworkUtils.class.getSimpleName();
+    private static final String TMDB_BASE_URL = "http://api.themoviedb.org/3/movie/";
     private static final String TMDB_BASE_URL_POPULAR = "http://api.themoviedb.org/3/movie/popular?";
     private static final String TMDB_BASE_URL_TOP_RATED = "http://api.themoviedb.org/3/movie/top_rated?";
     private static final String API_KEY_PARAM = "api_key";
@@ -31,6 +32,24 @@ public final class NetworkUtils {
         }
 
         Uri builtUri = Uri.parse(TMDB_BASE_URL).buildUpon()
+                .appendQueryParameter(API_KEY_PARAM, api_key)
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        Log.v(TAG, "Built URI " + url);
+
+        return url;
+    }
+
+    public static URL buildUrlForVideos(String api_key, String movieId) {
+        String videoUrl = TMDB_BASE_URL + movieId + "/videos";
+        Uri builtUri = Uri.parse(videoUrl).buildUpon()
                 .appendQueryParameter(API_KEY_PARAM, api_key)
                 .build();
 

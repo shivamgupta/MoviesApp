@@ -42,4 +42,26 @@ public class TmdbJSONUtils {
         }
         return movies;
     }
+
+    public static String getKeyFromRawVideoData(String rawTmdbData)  throws JSONException {
+        // JSON TAGS
+        final String TAG_RESULTS = "results";
+        final String TAG_KEY = "key";
+        final String TAG_SITE = "site";
+        final String TAG_TYPE = "type";
+
+        JSONObject tmdbJson = new JSONObject(rawTmdbData);
+        JSONArray videoResultsArray = tmdbJson.getJSONArray(TAG_RESULTS);
+
+        String key = "null";
+
+        for (int i = 0; i < videoResultsArray.length(); i++) {
+            JSONObject videoInfo = videoResultsArray.getJSONObject(i);
+            if(videoInfo.getString(TAG_SITE).toLowerCase().equals("youtube")
+                    && videoInfo.getString(TAG_TYPE).toLowerCase().equals("trailer")){
+                key = videoInfo.getString(TAG_KEY);
+            }
+        }
+        return key;
+    }
 }
